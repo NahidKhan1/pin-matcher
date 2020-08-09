@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="showInput" class="form-control" type="text">
+                    <button id="addInput" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                 <input type="text" class="form-control" id="inputData" >
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div onclick="inputNum(this.innerText)" class="button">7</div>
+                              <div onclick="inputNum(this.innerText)" class="button">8</div>
+                              <div onclick="inputNum(this.innerText)" class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div onclick="inputNum(this.innerText)"class="button">4</div>
+                              <div onclick="inputNum(this.innerText)" class="button">5</div>
+                              <div onclick="inputNum(this.innerText)" class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div onclick="inputNum(this.innerText)" class="button">1</div>
+                              <div onclick="inputNum(this.innerText)" class="button">2</div>
+                              <div onclick="inputNum(this.innerText)" class="button">3</div>
+                            </div>
+                            
+                            <div class="calc-button-row">
+                                <div onclick="inputData.value = inputData.value.slice(0, -1)" class="button"><</div>
+                                <div onclick="inputNum(this.innerText)"class="button">0</div>
+                                <div onclick="inputData.value = '' " class="button">C</div>
+                            </div>
+                            <div>
+                                <button id="pinMatch" type="submit" class="submit-btn">Submit</button>
+                                <p id="tryLeft" class="action-left"><span id="decrement">3</span> try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="firstInput" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p  id="secondInput" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+   
+
+    <Script>
+
+        //genarate pin number.
+
+            const addInput = document.getElementById("addInput");
+            addInput.addEventListener("click", function(){
+            const showInputNum = document.getElementById("showInput").value;
+            const showInput = parseFloat(addInput);
+            const generatePinNum = Math.floor(Math.random()*7700)+2000;
+            document.getElementById("showInput").value = generatePinNum;
+
+        });
+
+        //adding input number.
+
+          function inputNum(number){
+          let display = number
+          document.getElementById('inputData').value += display;
+       }
+       
+      // compare pin number.
+           document.getElementById("pinMatch").addEventListener("click", function(){
+            let firstInputNum = document.getElementById("showInput").value;
+            let secondInputNum = document.getElementById("inputData").value;
+            let tryLeft = document.getElementById("tryLeft");
+          
+             if(firstInputNum === '' || secondInputNum === ''){
+                 alert("Put input value");
+
+             }
+
+           else if (firstInputNum === secondInputNum){
+                    document.getElementById("secondInput").style.display = 'block';
+                    document.getElementById("firstInput").style.display = 'none';
+                    document.getElementById("showInput").value = "";
+                    document.getElementById("inputData").value = "";
+
+            }
+            else {
+                document.getElementById("firstInput").style.display = 'block';
+                document.getElementById("secondInput").style.display = 'none';
+                document.getElementById("inputData").value = "";
+                var spanNumber = document.getElementById('decrement').innerText;
+            if (spanNumber > 0 ){ 
+                    document.getElementById('try-count').innerText = spanNumber -1;
+                }
+                if (spanNumber == 1){ 
+                    document.getElementById('submit-btn').disabled = true;
+                }
+                
+            }
+            
+           });
+                
+          
+    </Script>
+    
+</body>
+</html>
